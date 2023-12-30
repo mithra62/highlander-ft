@@ -26,9 +26,12 @@ class Highlander_ft_ft extends EE_Fieldtype
      */
     protected array $unique_to = [
         'all' => 'All',
-        'Entry\'s Channel',
+        'entry_channel' => 'Entry\'s Channel',
     ];
 
+    /**
+     * @return string[]
+     */
     public function install()
     {
         return [
@@ -55,7 +58,8 @@ class Highlander_ft_ft extends EE_Fieldtype
     public function display_settings($data)
     {
         $selected = element('display_field_type', $data);
-        $field_max_length = !empty($data['field_max_length']) ? $data['field_max_length'] : 128 ;
+        $field_max_length = !empty($data['field_max_length']) ? $data['field_max_length'] : 128;
+        $unique_to = !empty($data['unique_to']) ? $data['unique_to'] : 'all';
         $settings = [
             [
                 'title' => 'display_type',
@@ -69,27 +73,27 @@ class Highlander_ft_ft extends EE_Fieldtype
                     ],
                 ],
             ],
-            [
-                'title' => 'field_max_length',
-                'fields' => [
-                    'field_max_length' => [
-                        'name' => 'field_max_length',
-                        'type' => 'text',
-                        'value' => $field_max_length,
-                    ],
-                ],
-            ],
-            [
-                'title' => 'unique_to',
-                'fields' => [
-                    'unique_to' => [
-                        'name' => 'unique_to',
-                        'type' => 'select',
-                        'value' => $field_max_length,
-                        'choices' => $this->unique_to,
-                    ],
-                ],
-            ],
+//            [
+//                'title' => 'field_max_length',
+//                'fields' => [
+//                    'field_max_length' => [
+//                        'name' => 'field_max_length',
+//                        'type' => 'text',
+//                        'value' => $field_max_length,
+//                    ],
+//                ],
+//            ],
+//            [
+//                'title' => 'unique_to',
+//                'fields' => [
+//                    'unique_to' => [
+//                        'name' => 'unique_to',
+//                        'type' => 'select',
+//                        'value' => $unique_to,
+//                        'choices' => $this->unique_to,
+//                    ],
+//                ],
+//            ],
         ];
 
         return ['field_options_highlander_fieldtype' => [
@@ -102,7 +106,11 @@ class Highlander_ft_ft extends EE_Fieldtype
 
     public function save_settings($data)
     {
-        return [];
+        return [
+            'unique_to' => element('unique_to', $data),
+            'field_max_length' => element('field_max_length', $data),
+            'display_field_type' => element('display_field_type', $data),
+        ];
     }
 
     public function display_field($data)
@@ -116,11 +124,17 @@ class Highlander_ft_ft extends EE_Fieldtype
 
     public function replace_tag($data, $params = [], $tagdata = false)
     {
-        return 'Magic!';
+        return $data;
     }
 
     public function validate($data)
     {
-        return "you failed";
+        if ($data) {
+            $mode = $this->settings['field_settings']['unique_to'] ?? 'all';
+            $content_id = $this->content_id ?? 0;
+            return ee('highlander_ft:Field')->validate($data, $this->field_id, $content_id, $mode);
+        }
+
+        return true;
     }
 }

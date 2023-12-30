@@ -1,5 +1,7 @@
 <?php
 
+use Mithra62\HighlanderFt\Services\Field;
+
 const HIGHLANDER_FIELDTYPE_VERSION = '1.0.0';
 
 
@@ -13,8 +15,13 @@ return [
     'settings_exist'    => false,
     'fieldtypes'        => [
         'highlander_ft' => [
-            'name' => 'Highlander_ft',
+            'name' => 'Highlander FieldType',
             'compatibility' => 'text',
         ],
-    ], 
+    ],
+    'services' => [
+        'Field' => function ($addon) {
+            return new Field();
+        },
+    ]
 ];
