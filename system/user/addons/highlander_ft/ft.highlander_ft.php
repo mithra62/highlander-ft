@@ -83,17 +83,17 @@ class Highlander_ft_ft extends EE_Fieldtype
 //                    ],
 //                ],
 //            ],
-//            [
-//                'title' => 'unique_to',
-//                'fields' => [
-//                    'unique_to' => [
-//                        'name' => 'unique_to',
-//                        'type' => 'select',
-//                        'value' => $unique_to,
-//                        'choices' => $this->unique_to,
-//                    ],
-//                ],
-//            ],
+            [
+                'title' => 'unique_to',
+                'fields' => [
+                    'unique_to' => [
+                        'name' => 'unique_to',
+                        'type' => 'select',
+                        'value' => $unique_to,
+                        'choices' => $this->unique_to,
+                    ],
+                ],
+            ],
         ];
 
         return ['field_options_highlander_fieldtype' => [
