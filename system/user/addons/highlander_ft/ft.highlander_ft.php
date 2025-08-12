@@ -29,6 +29,13 @@ class Highlander_ft_ft extends EE_Fieldtype
         'entry_channel' => 'Entry\'s Channel',
     ];
 
+    public function __construct()
+    {
+        ee()->lang->loadfile('highlander_ft');
+        ee()->load->helper('array');
+        parent::__construct();
+    }
+
     /**
      * @return string[]
      */
@@ -73,18 +80,9 @@ class Highlander_ft_ft extends EE_Fieldtype
                     ],
                 ],
             ],
-//            [
-//                'title' => 'field_max_length',
-//                'fields' => [
-//                    'field_max_length' => [
-//                        'name' => 'field_max_length',
-//                        'type' => 'text',
-//                        'value' => $field_max_length,
-//                    ],
-//                ],
-//            ],
             [
                 'title' => 'unique_to',
+                'desc' => 'unique_to_instructions',
                 'fields' => [
                     'unique_to' => [
                         'name' => 'unique_to',
@@ -98,7 +96,7 @@ class Highlander_ft_ft extends EE_Fieldtype
 
         return ['field_options_highlander_fieldtype' => [
             'label' => 'field_options',
-            'group' => 'highlander_fieldtype',
+            'group' => 'highlander_ft',
             'settings' => $settings,
         ],
         ];
